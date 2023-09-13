@@ -1,5 +1,8 @@
 let roundNumber = 0, playerScore = 0, computerScore = 0;
 const symbolButtons = document.querySelectorAll('button');
+const message = document.querySelectorAll('.message');
+const score = document.querySelectorAll('.score');
+const result = document.querySelectorAll('.result');
 
 
 function getComputerChoice() {
@@ -37,10 +40,12 @@ function game() {
         symbol.addEventListener('click', (e) => {
             let computerSelection = getComputerChoice();
             let playerSelection = e.textContent;
-            playRound(playerSelection, computerSelection);
+            message.textContent = playRound(playerSelection, computerSelection);
+            score.textContent = `You: ${playerScore}      Computer: ${computerScore}`
+            if ([playerScore, computerScore].includes(5))
+                result.textContent = checkScore(playerScore, computerScore);
         })
     })
-    console.log(checkScore(playerScore, computerScore));
 }
 
 game();
