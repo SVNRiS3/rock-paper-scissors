@@ -29,9 +29,9 @@ function checkScore(playerScore, computerScore) {
     return playerScore === computerScore ? "It's a draw, there's no winner!" : playerScore > computerScore ? "You won, congratulations!" : "You lost :(";
 }
 
-function game() {
 
-    while (roundNumber < 5) {
+function game() {
+    while (true) { //roundNumber < 5
         let computerSelection = getComputerChoice();
         let playerSelection = prompt("Please write your symbol: ");
         console.log(playRound(playerSelection, computerSelection));
