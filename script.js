@@ -1,8 +1,9 @@
-let roundNumber = 0, playerScore = 0, computerScore = 0;
+let playerScore = 0, computerScore = 0;
 const symbolButtons = document.querySelectorAll('button');
-const message = document.querySelectorAll('.message');
-const score = document.querySelectorAll('.score');
-const result = document.querySelectorAll('.result');
+const message = document.querySelector('.message');
+const score = document.querySelector('.score');
+const result = document.querySelector('.result');
+const reset = document.querySelector('.reset');
 
 
 function getComputerChoice() {
@@ -24,7 +25,6 @@ function playRound(playerSelection, computerSelection) {
         message = `You win! ${playerSelection} beats ${computerSelection}`;
         playerScore++;
     }
-    roundNumber++;
     return message;
 }
 
@@ -36,14 +36,27 @@ function checkScore(playerScore, computerScore) {
 
 
 function game() {
+    reset.style.visibility = "hidden";
     symbolButtons.forEach((symbol) => {
         symbol.addEventListener('click', (e) => {
-            let computerSelection = getComputerChoice();
-            let playerSelection = e.textContent;
-            message.textContent = playRound(playerSelection, computerSelection);
-            score.textContent = `You: ${playerScore}      Computer: ${computerScore}`
-            if ([playerScore, computerScore].includes(5))
-                result.textContent = checkScore(playerScore, computerScore);
+            if (![playerScore, computerScore].includes(5)) {
+                let computerSelection = getComputerChoice();
+                let playerSelection = e.target.textContent;
+                message.textContent = playRound(playerSelection, computerSelection);
+                score.textContent = `You: ${playerScore}      Computer: ${computerScore}`
+                if ([playerScore, computerScore].includes(5)) {
+                    result.textContent = checkScore(playerScore, computerScore);
+                    reset.addEventListener('click', () => {
+                        playerScore = 0;
+                        computerScore = 0;
+                        message.textContent = '';
+                        score.textContent = '';
+                        result.textContent = '';
+                        reset.style.visibility = "hidden";
+                    })
+                    reset.style.visibility = "visible";
+                }
+            }
         })
     })
 }
