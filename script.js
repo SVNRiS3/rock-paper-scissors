@@ -1,4 +1,5 @@
 let roundNumber = 0, playerScore = 0, computerScore = 0;
+const symbolButtons = document.querySelectorAll('button');
 
 
 function getComputerChoice() {
@@ -7,18 +8,17 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    playerSelectionCapitalized = playerSelection[0].toUpperCase() + playerSelection.slice(1).toLowerCase();
     let message = '';
-    if (!['Rock', 'Paper', 'Scissors'].includes(playerSelectionCapitalized)) {
+    if (!['Rock', 'Paper', 'Scissors'].includes(playerSelection)) {
         console.log('Please choose the right symbol!');
         return;
-    } else if (playerSelectionCapitalized === computerSelection) {
+    } else if (playerSelection === computerSelection) {
         message = "It's a draw";
-    } else if (playerSelectionCapitalized === "Rock" && computerSelection === "Paper" || playerSelectionCapitalized === "Paper" && computerSelection === "Scissors" || playerSelectionCapitalized === "Scissors" && computerSelection === "Rock") {
-        message = `You lose! ${computerSelection} beats ${playerSelectionCapitalized}`;
+    } else if (playerSelection === "Rock" && computerSelection === "Paper" || playerSelection === "Paper" && computerSelection === "Scissors" || playerSelection === "Scissors" && computerSelection === "Rock") {
+        message = `You lose! ${computerSelection} beats ${playerSelection}`;
         computerScore++;
     } else {
-        message = `You win! ${playerSelectionCapitalized} beats ${computerSelection}`;
+        message = `You win! ${playerSelection} beats ${computerSelection}`;
         playerScore++;
     }
     roundNumber++;
@@ -26,17 +26,20 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function checkScore(playerScore, computerScore) {
-    return playerScore === computerScore ? "It's a draw, there's no winner!" : playerScore > computerScore ? "You won, congratulations!" : "You lost :(";
+    return playerScore > computerScore ? "You won, congratulations!" : "You lost :(";
 }
 
 
-function game() {
-    while (true) { //roundNumber < 5
-        let computerSelection = getComputerChoice();
-        let playerSelection = prompt("Please write your symbol: ");
-        console.log(playRound(playerSelection, computerSelection));
-    }
 
+
+function game() {
+    symbolButtons.forEach((symbol) => {
+        symbol.addEventListener('click', (e) => {
+            let computerSelection = getComputerChoice();
+            let playerSelection = e.textContent;
+            playRound(playerSelection, computerSelection);
+        })
+    })
     console.log(checkScore(playerScore, computerScore));
 }
 
